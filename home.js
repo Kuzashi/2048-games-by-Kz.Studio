@@ -281,7 +281,7 @@ bgMusic.addEventListener("ended", () => {
     bgMusic.play(); // Mainkan lagi
 });
 
-musicBtn.addEventListener("click", () => {
+musicBtn.addEventListener("touchend", () => {
     if (bgMusic.paused) {
         bgMusic.play();
         musicBtn.innerText = "🔊";
