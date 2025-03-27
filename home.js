@@ -7,6 +7,14 @@ document.addEventListener("DOMContentLoaded", () => {
     addTouchControls(); // Tambahin swipe buat Android
 });
 
+document.addEventListener("touchstart", function(event) {
+    event.preventDefault(); // Mencegah geser kanan/kiri ke menu browser
+}, { passive: false });
+
+document.addEventListener("touchmove", function(event) {
+    event.preventDefault(); // Mencegah scroll atau navigasi lain
+}, { passive: false });
+
 // Fungsi buat detect swipe
 function addTouchControls() {
     document.addEventListener("touchstart", (event) => {
@@ -21,23 +29,20 @@ function addTouchControls() {
     });
 }
 
-// Deteksi arah swipe dan gerakan
 function handleSwipe() {
     let deltaX = touchEndX - touchStartX;
     let deltaY = touchEndY - touchStartY;
     let moved = false;
 
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        if (deltaX > 50) moved = moveRight();  // Swipe kanan
-        else if (deltaX < -50) moved = moveLeft(); // Swipe kiri
+        moved = deltaX > 50 ? moveRight() : deltaX < -50 ? moveLeft() : false;
     } else {
-        if (deltaY > 50) moved = moveDown();  // Swipe bawah
-        else if (deltaY < -50) moved = moveUp();  // Swipe atas
+        moved = deltaY > 50 ? moveDown() : deltaY < -50 ? moveUp() : false;
     }
 
     if (moved) {
-      console.log("Tile baru ditambahkan!");
-animateSwipe(deltaX, deltaY);
+        console.log("Tile baru ditambahkan!");
+        animateSwipe(deltaX, deltaY);
         addRandomTile();
     }
 }
@@ -286,3 +291,4 @@ musicBtn.addEventListener("click", () => {
     }
 });
 
+               
