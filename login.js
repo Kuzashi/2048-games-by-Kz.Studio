@@ -1,10 +1,3 @@
-window.onload = function() {
-    setTimeout(() => {
-        document.getElementById("preloader").style.display = "none";
-        document.getElementById("main-content").style.display = "block";
-    }, 4600); // Tampilkan logo selama 4.6 detik
-};
-
 function toggleForms() {
     document.getElementById("sign-in-form").style.display = 
         document.getElementById("sign-in-form").style.display === "none" ? "block" : "none";
