@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Login</title>
+    <link rel="stylesheet" href="c-l.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Pilih Cara Masuk</h2>
+        <button onclick="goToLogin()">Login / Sign-Up</button>
+        <button onclick="guestMode()">Main Sebagai Tamu</button>
+    </div>
+
+    <script>
+        function goToLogin() {
+            window.location.href = "login.html";
+        }
+
+        function guestMode() {
+            alert("Masuk sebagai tamu.");
+            window.location.href = "home.html"; // Ganti dengan halaman home game
+        }
+    </script>
+</body>
+</html>

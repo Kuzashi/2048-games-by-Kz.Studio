@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captcha Sederhana</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: url("pantai.jpg") no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.captcha-container {
+    background: #fff;
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+canvas {
+    border: 1px solid #000;
+    margin-bottom: 10px;
+    background: #ddd;
+    border-radius: 5px;
+}
+
+input {
+    width: 100vw;
+    height: 30px;
+    padding-bottom: 8px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #218838;
+}
+
+#result {
+    font-size: 14px;
+    color: red;
+}
+
+#kotakPesan {
+    width: 90%;
+    max-width: 300px;
+    margin: 15px auto;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    text-align: center;
+}
+
+#pesan {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+}
+    </style>
+</head>
+<body>
+
+    <h2>Masukkan Captcha</h2>
+    <canvas id="captchaCanvas" width="150" height="50"></canvas><br>
+    <input type="text" id="captchaInput" placeholder="Masukkan teks di atas">
+    <button onclick="cekCaptcha()">Submit</button>
+    <p id="result"></p>
+    <div id="kotakPesan">
+    <p id="pesan">Tolong bantu kami menciptakan lingkungan permainan<br>
+    yang baik dan aman tanpa ada gangguan DDOS</p>
+    </div>
+
+    <script>
+        let captchaText = "";
+
+        function generateCaptcha() {
+            const canvas = document.getElementById("captchaCanvas");
+            const ctx = canvas.getContext("2d");
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$&";
+            
+            captchaText = "";
+            for (let i = 0; i < 6; i++) {
+                captchaText += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.font = "30px Arial";
+            ctx.fillStyle = "#000";
+            ctx.fillText(captchaText, 20, 35);
+        }
+
+        function cekCaptcha() {
+            const userInput = document.getElementById("captchaInput").value;
+            if (userInput === captchaText) {
+                document.getElementById("result").innerText = "✅ Captcha benar! Masuk...";
+                setTimeout(() => {
+                    window.location.href = "menu.html"; // Redirect ke home.html
+                }, 1000);
+            } else {
+                document.getElementById("result").innerText = "❌ Captcha salah, coba lagi!";
+                generateCaptcha();
+            }
+        }
+
+        window.onload = generateCaptcha;
+    </script>
+
+</body>
+</html>
+
+
+
