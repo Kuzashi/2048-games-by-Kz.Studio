@@ -24,7 +24,7 @@ function login() {
 
     if (localStorage.getItem(username) === password) {
         alert("Login berhasil!");
-        window.location.href = "menu.html"; // Ganti dengan halaman game nanti
+        window.location.href = "home.html"; // Ganti dengan halaman game nanti
     } else {
         alert("Username atau password salah!");
     }
