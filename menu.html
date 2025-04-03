@@ -1,36 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="menu.css">
-  <title></title>
+  <title>Menu Game</title>
 </head>
 
 <body>
-   <div id="preloader">
-  <video id="intro-video" src="InShot_20250327_083041575.mp4" type="video/mp4" autoplay muted playline></video>
-</div>
+  <!-- Audio Background -->
+  <audio id="bg-music" loop>
+    <source src="Air Gelap.mp3" type="audio/mp3">
+    Browser kamu tidak mendukung elemen audio.
+  </audio>
+  
+  <h2>SELAMAT DATANG DI<br>
+  2048 Games! Enjoy:3</h2>
+  <p style="position: absolute; top: 95%; left: 5%; color: rgba(256, 256, 256, 0.6)"><small>Made By: Kz.Studio</small></p>
+  <p style="position: absolute; top: 95%; left: 35%; color: rgba(256, 256, 256, 0.6)"><small>in collaboration with openAI & we team</small></p>
 
-  <h2>Selamat datang di<br>
-  <p id="buatan"><small>Made By: Kz.Studio</small></p>
-  2048 games! Enjoy</h2>
   <div id="kontainerMasuk">
-  <button id="masuk" onclick="openLogin()">Play Games</button>
-  <button id="keluar" onclick="exit()">Exit</button>
-  <button id="kontak" onclick="openWa()">Report to Dev</button>
+    <button id="masuk" onclick="openLogin()">Play Games</button>
+    <button id="keluar" onclick="exit()">Exit</button>
+    <button id="kontak" onclick="openWa()">Report to Dev</button>
   </div>
-<!-- Kontainer Loading -->
-<!-- Kontainer Loading -->
-<div id="loading" class="loading-container">
+
+  <!-- Kontainer Loading -->
+  <div id="loading" class="loading-container">
     <div class="loading-text">Loading...</div>
     <div class="loading-bar-container">
-        <div id="progressBar" class="loading-bar"></div>
+      <div id="progressBar" class="loading-bar"></div>
     </div>
-</div>
+  </div>
 
+  <!-- Kontainer Pengaturan -->
+  <div id="settingsContainer" class="settings-container">
+    <button onclick="toggleSettings()">Close Settings</button>
+    <label for="bgMusic">Background Music: </label>
+    <input style="margin-bottom: 5px;" type="checkbox" id="bgMusic" onchange="toggleMusic()">
+    <p style="color: white" id="donation"></p>
+  </div>
+
+  <!-- Tombol Pengaturan -->
+  <button id="settingsBtn" onclick="toggleSettings()">⚙️</button>
+
+  <div id="leaderboard"></div>
+
+  <script src="menu.js"></script>
 </body>
-<script src="menu.js"></script>
 
 </html>
