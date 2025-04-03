@@ -16,33 +16,12 @@ body {
     overflow: hidden;
 }
 
-/* Style buat preloader */
-#preloader {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-#preloader video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
 h2 {
-  position: absolute;
-  top: 15%;
-  left: 26%;
-  transform: translate(-15, -26);
-  color: white;
+    position: absolute;
+    top: 15%;
+    left: 26%;
+    transform: translate(-15, -26);
+    color: white;
 }
 
 /* Kontainer loading di tengah */
@@ -91,20 +70,12 @@ h2 {
     0% { opacity: 1; }
     100% { opacity: 0.5; }
 }
-  
-#buatan {
-  position: absolute;
-  top: 70vh;
-  left: 26%;
-  transform: translate(-20, -26);
-  color: rgba(256, 256, 256, 0.8);
-}
 
 /* Container tombol */
 #kontainerMasuk {
-  position: absolute;
-  top: 50%;
-  left: 10%;
+    position: absolute;
+    top: 50%;
+    left: 10%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -148,4 +119,36 @@ button:active {
         width: 150px;
         font-size: 16px;
     }
-    }
+}
+
+/* Tombol Pengaturan */
+#settingsBtn {
+    position: absolute;
+    width: 50px;
+    top: 3%;
+    right: 6%;
+    width: auto;
+    background: none;
+    font-size: 20px;
+}
+
+/* Kontainer Pengaturan */
+.settings-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: auto;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Gaya untuk checkbox */
+#bgMusic {
+    margin-top: 10px;
+}
