@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
+  <canvas id="games"></canvas>
     <h1>2048 Game!</h1>
     <p id="make">Made By: Kz.Studio</p>
     <div id="game-container">
         <div id="grid"></div>
         <div id="game-over">Game Over! <br> 
-            <button onclick="restartGame()">Restart</button>
+           <button id="restartBtn">🔄 Restart</button>
         </div>
     </div>
     
@@ -22,8 +23,9 @@
 </div>
 <div id="score">Blok Tertinggi: 0</div>
     
-    <audio id="bg-music" loop>
-        <source src="Castlevania (NES) Music - Stage 01 Vampire Killer.mp3" type="audio/mp3">
+    <audio id="bg-music" loop volume="0.5">
+        <source src="Luar Angkasa.mp3" type="audio/mp3">
+        <source src="Pixels.mp3" type="audio/mp3">
         Browser kamu tidak mendukung elemen audio.
     </audio>
     <button id="musicBtn">🔊</button>
