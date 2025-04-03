@@ -11,10 +11,6 @@ document.addEventListener("touchstart", function(event) {
     event.preventDefault(); // Mencegah geser kanan/kiri ke menu browser
 }, { passive: false });
 
-document.addEventListener("touchmove", function(event) {
-    event.preventDefault(); // Mencegah scroll atau navigasi lain
-}, { passive: false });
-
 // Fungsi buat detect swipe
 function addTouchControls() {
     document.addEventListener("touchstart", (event) => {
@@ -39,42 +35,99 @@ function handleSwipe() {
     } else {
         moved = deltaY > 50 ? moveDown() : deltaY < -50 ? moveUp() : false;
     }
-
-    if (moved) {
-        console.log("Tile baru ditambahkan!");
-        animateSwipe(deltaX, deltaY);
-        addRandomTile();
-    }
+    
+if (moved) {
+  console.log("Tile baru ditambahkan!");
+  animateSwipe(deltaX, deltaY);
+  const startTime = performance.now();
+  setTimeout(() => {
+    const endTime = performance.now();
+    console.log(`Waktu yang dibutuhkan: ${endTime - startTime} milidetik`);
+    addRandomTile();
+    updateBoard(); // Update tampilan papan setelah tile baru muncul
+  }, 5); // Atur waktu munculnya tile baru (dalam milidetik)
+}
 }
 
 // Fungsi buat animasi swipe
 function animateSwipe(deltaX, deltaY) {
-    let cells = document.querySelectorAll(".cell");
-    let dx = deltaX > 0 ? "20px" : deltaX < 0 ? "-20px" : "0px";
-    let dy = deltaY > 0 ? "20px" : deltaY < 0 ? "-20px" : "0px";
+  let cells = document.querySelectorAll(".cell");
+  let dx = deltaX > 0 ? "20px" : deltaX < 0 ? "-20px" : "0px";
+  let dy = deltaY > 0 ? "20px" : deltaY < 0 ? "-20px" : "0px";
 
-    cells.forEach(cell => {
-        cell.style.setProperty("--dx", dx);
-        cell.style.setProperty("--dy", dy);
-        cell.classList.add("moving");
-        setTimeout(() => cell.classList.remove("moving"), 200);
-    });
+  cells.forEach((cell) => {
+    if (cell.textContent !== "") {
+      cell.style.transform = `translate(${dx}, ${dy})`;
+      setTimeout(() => {
+        cell.style.transform = "";
+      }, 200);
+    }
+  });
 }
 
 function addRandomTile() {
-    let emptyCells = [];
-    for (let r = 0; r < 4; r++) {
-        for (let c = 0; c < 4; c++) {
-            if (board[r][c] === 0) {
-                emptyCells.push({ r, c });
-            }
-        }
+  let emptyCells = [];
+  for (let r = 0; r < 4; r++) {
+    for (let c = 0; c < 4; c++) {
+      if (board[r][c] === 0) {
+        emptyCells.push({ r, c });
+      }
     }
+  }
 
-    if (emptyCells.length > 0) {
-        let { r, c } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-        board[r][c] = Math.random() < 0.9 ? 2 : 4; // 90% angka 2, 10% angka 4
+  if (emptyCells.length === 0) return;
+
+  let highestTile = Math.max(...board.flat());
+  let tileValues, probabilities;
+
+  if (highestTile < 8) {
+    tileValues = [2, 4];
+    probabilities = [0.9, 0.1];
+} else if (highestTile < 64) {
+    tileValues = [2, 4, 8, 16];
+    probabilities = [0.3, 0.3, 0.25, 0.15];  // Masih cukup banyak angka kecil
+} else if (highestTile < 512) {
+    tileValues = [2, 4, 8, 16, 32, 64];
+    probabilities = [0.2, 0.2, 0.2, 0.2, 0.15, 0.05]; // Lebih seimbang
+} else if (highestTile < 1024) {
+    tileValues = [2, 4, 8, 16, 32, 64, 128];
+    probabilities = [0.15, 0.15, 0.15, 0.2, 0.2, 0.1, 0.05]; // Masih ada 2 & 4 tapi lebih kecil
+} else {
+    tileValues = [2, 4, 8, 16, 32, 64, 128, 256];
+    probabilities = [0.1, 0.1, 0.15, 0.2, 0.2, 0.15, 0.07, 0.03]; // 2 & 4 tetap ada, tapi makin jarang
+}
+
+  function getRandomTile() {
+    let rand = Math.random();
+    let cumulative = 0;
+    for (let i = 0; i < tileValues.length; i++) {
+      cumulative += probabilities[i];
+      if (rand < cumulative) return tileValues[i];
     }
+    return tileValues[tileValues.length - 1]; // fallback jika ada kesalahan
+  }
+
+  let randomValue = Math.random();
+  if (randomValue < 0.98 || emptyCells.length === 1) {  
+    // Tambah 1 tile jika chance < 98% atau hanya ada 1 sel kosong
+    let { r, c } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    board[r][c] = getRandomTile();
+  } else {
+    // Tambah 2 tile jika chance >= 98%
+    let idx1 = Math.floor(Math.random() * emptyCells.length);
+    let { r: r1, c: c1 } = emptyCells[idx1];
+
+    // Ambil sel lain yang berbeda
+    let idx2;
+    do {
+      idx2 = Math.floor(Math.random() * emptyCells.length);
+    } while (idx2 === idx1);
+
+    let { r: r2, c: c2 } = emptyCells[idx2];
+
+    board[r1][c1] = getRandomTile();
+    board[r2][c2] = getRandomTile();
+  }
 }
 
 // Update tampilan papan dengan animasi tile baru
@@ -267,13 +320,24 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
  const bgMusic = document.getElementById("bg-music");
-const musicBtn = document.getElementById("musicBtn");
+ const musicBtn = document.getElementById("musicBtn");
 
-window.onload = () => {
-    bgMusic.play().catch(() => {
-        console.log("Autoplay dicegah, klik tombol musik untuk memulai.");
+// Fungsi untuk memutar musik setelah interaksi pertama
+function playMusic() {
+    bgMusic.play().then(() => {
+        console.log("Musik diputar otomatis setelah interaksi.");
+        document.removeEventListener("click", playMusic);
+        document.removeEventListener("keydown", playMusic);
+        document.removeEventListener("touchstart", playMusic);
+    }).catch(err => {
+        console.error("Gagal memutar musik:", err);
     });
-};
+}
+
+// Tambahkan event listener untuk menangkap interaksi pertama
+document.addEventListener("click", playMusic);
+document.addEventListener("keydown", playMusic);
+document.addEventListener("touchstart", playMusic);
 
 // Loop musik saat selesai
 bgMusic.addEventListener("ended", () => {
@@ -281,6 +345,7 @@ bgMusic.addEventListener("ended", () => {
     bgMusic.play(); // Mainkan lagi
 });
 
+// Fungsi tombol musik
 musicBtn.addEventListener("touchend", () => {
     if (bgMusic.paused) {
         bgMusic.play();
@@ -291,4 +356,75 @@ musicBtn.addEventListener("touchend", () => {
     }
 });
 
-               
+const restartBtn = document.getElementById("restartBtn"); // Ambil tombol restart
+const gameBoard = document.getElementById("game-board"); // Ambil elemen permainan
+
+restartBtn.addEventListener("touchend", () => {
+    resetGame();
+});
+
+function resetGame() {
+board = Array(4).fill().map(() => Array(4).fill(0));
+    addRandomTile();
+    addRandomTile(); // Pastikan ada dua angka awal
+    updateBoard();
+    document.getElementById("game-over").style.display = "none";
+
+
+bgMusic.currentTime = 0;
+    startGame();
+}
+
+function startGame() {
+    console.log("Game dimulai ulang!");
+addRandomTile();
+addRandomTile();
+
+bgMusic.currentTime = 0;
+}
+
+const canvas = document.getElementById("games");
+const ctx = canvas.getContext("2d");
+
+// Atur ukuran canvas sesuai layar
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const stars = [];
+const numStars = 150; // Jumlah bintang
+
+// Inisialisasi bintang
+for (let i = 0; i < numStars; i++) {
+    stars.push({
+        x: Math.random() * canvas.width,  // Posisi X acak
+        y: Math.random() * canvas.height, // Posisi Y acak
+        radius: Math.random() * 2,       // Ukuran acak (0.5 - 2 px)
+        speed: Math.random() * 1   // Kecepatan jatuh (0.5 - 2.5 px)
+    });
+}
+
+// Animasi bintang dan bentuk bintang
+function animateStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "white";
+    for (let star of stars) {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Gerakkan bintang ke bawah
+        star.y += star.speed;
+
+        // Jika keluar layar, kembalikan ke atas
+        if (star.y > canvas.height) {
+            star.y = 0;
+            star.x = Math.random() * canvas.width;
+        }
+    }
+
+    requestAnimationFrame(animateStars);
+}
+
+animateStars(); // Jalankan animasi
+                    
