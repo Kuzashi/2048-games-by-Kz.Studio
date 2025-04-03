@@ -1,8 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background: url("pemandangan.jpg") no-repeat center center fixed;
-    background-size: cover;
+    background: black;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -12,9 +11,31 @@ body {
     overflow: hidden;
 }
 
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* tetap dibelakang semua elemen lain */
+}
+
 h1 {
-    font-size: 36px;
-    margin-bottom: 10px;
+  font-size: 48px;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
 #make {
@@ -71,10 +92,6 @@ h1 {
 
 .new-tile {
     animation: newTile 0.15s ease-out;
-}
-
-.moving {
-    transition: transform 0.15s ease-in-out;
 }
 
 .tile {
@@ -134,11 +151,31 @@ button:hover {
     background: #776e65;
 }
 
+#settings-menu {
+    position: absolute; 
+    bottom: 20px; /* Sesuaikan biar muncul di luar panel */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999; /* Pastikan tombolnya ada di atas */
+    background-color: rgba(0, 0, 0, 0.7); /* Biar lebih terlihat */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button {
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
 #musicBtn {
   position: absolute;
-  top: 26%;
+  top: 20vh;
   left: 78%;
-  transform: translate(-22, -78);
+  transform: translate(-50, -50);
+  margin: 5px;
   background-color: whitesmoke;
 }
 
