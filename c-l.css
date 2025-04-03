@@ -55,3 +55,92 @@ button:last-of-type {
 button:last-of-type:hover {
     background: #1e7e34;
 }
+
+/* Kontainer loading tamu yang terpisah */
+#guestLoading {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000; /* Pastikan loading tamu di atas elemen lain */
+}
+
+/* Animasi teks loading tamu */
+#guestLoading .loading-text {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    animation: blink 1.5s infinite alternate;
+}
+
+/* Bar progres tamu */
+#guestLoading .loading-bar-container {
+    width: 100%;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+#guestLoading .loading-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #4caf50, #76ff03);
+    transition: width 0.3s ease-in-out;
+}
+
+/* Animasi teks berkedip */
+@keyframes blink {
+    0% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+/* Kontainer loading login lainnya */
+.loading-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Animasi teks loading login lainnya */
+.loading-container .loading-text {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    animation: blink 1.5s infinite alternate;
+}
+
+/* Bar progres login lainnya */
+.loading-container .loading-bar-container {
+    width: 100%;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.loading-container .loading-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #4caf50, #76ff03);
+    transition: width 0.3s ease-in-out;
+}
