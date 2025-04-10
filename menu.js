@@ -30,7 +30,7 @@ function toggleSettings() {
   settingsContainer.style.display = settingsContainer.style.display === "block" ? "none" : "block";
   document.getElementById("donation").innerHTML = "dukung kami dengan donasi.<br> Dana:<br> 0813-6170-5396";
   document.getElementById("space").innerHTML = "----";
-  document.getElementById("new").innerHTML = "Pembaruan terbaru<br> 1.<br> 2.<br> 3.<br> 4.<br> 5.<br>";
+  document.getElementById("new").innerHTML = "Pembaruan terbaru<br> Perubahan banyak UI game termasuk<br> - Perubahan UI menu<br> - Perubahan UI difficulty<br> - Penambahan 3 kesulitan baru [Easy, Medium, Expert]<br> - Penambahan efek suara tekan tombol<br> - Penambahan suara ambien dan suara tambahan di kesulitan Medium dan Expert";
   document.getElementById("channel").innerHTML = "Follow we channel in what'sapp";
 }
 
