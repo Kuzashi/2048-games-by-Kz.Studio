@@ -7,20 +7,17 @@
     <link rel="stylesheet" href="c-l.css">
 </head>
 <body>
+
+  <div class="g-recaptcha" data-sitekey="6LeEOxsrAAAAAMz3fDu7PdbdIzSkFZoovIlbpIrY"></div>
+</form>
+
     <div class="container">
         <h2>Pilih Cara Masuk</h2>
         <button onclick="goToLogin()">Login / Sign-Up</button>
         <button onclick="guestMode()">Main Sebagai Tamu</button>
     </div>
     
-    <!-- Modal untuk guest -->
-    <div id="guestModal" style="display: none;">
-        <p>Masuk sebagai tamu...</p>
-        <div id="guestLoading" style="width: 100%; background: #ddd; height: 10px; border-radius: 5px; margin-top: 10px; display: none;">
-            <div id="guestProgressBar" style="width: 0%; height: 100%; background: green; border-radius: 5px;"></div>
-        </div>
-    </div>
-    
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script>
     
     const naudio = new Audio ("efekTekan.mp3");
@@ -34,12 +31,12 @@
     
         function goToLogin() {
           efekTekan();
-            window.location.href = "login.html";
+            location.replace("login.html");
         }
 
         function guestMode() {
                     efekTekan();
-                    window.location.href = "menu.html"; 
+                    location.replace("menu.html"); 
                 }
     </script>
 </body>
