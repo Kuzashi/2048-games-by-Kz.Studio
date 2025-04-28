@@ -4,11 +4,23 @@ let touchEndX = 0, touchEndY = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
     restartGame();
+    updateAbilitiesUI();
+    updateRubelDisplay();
+    updateScore();
     addTouchControls(); // Tambahin swipe buat Android
 });
 
-document.addEventListener("touchstart", function(event) {
-    event.preventDefault(); // Mencegah geser kanan/kiri ke menu browser
+document.addEventListener("touchstart", function(e) {
+    const target = e.target;
+
+    // Cegah swipe hanya pada area selain tombol dan elemen yang perlu diinteraksikan
+    if (target.closest("button") || target.closest(".allow-touch")) {
+        // Biarkan interaksi tombol tetap berjalan
+        return;
+    }
+
+    // Hentikan default browser behavior (misal swipe)
+    e.preventDefault();
 }, { passive: false });
 
 // Fungsi buat detect swipe
@@ -52,11 +64,12 @@ if (moved) {
 // Fungsi buat animasi swipe
 function animateSwipe(deltaX, deltaY) {
   let cells = document.querySelectorAll(".cell");
-  let dx = deltaX > 0 ? "20px" : deltaX < 0 ? "-20px" : "0px";
-  let dy = deltaY > 0 ? "20px" : deltaY < 0 ? "-20px" : "0px";
+  let dx = deltaX > 0 ? "30px" : deltaX < 0 ? "-30px" : "0px";
+  let dy = deltaY > 0 ? "30px" : deltaY < 0 ? "-30px" : "0px";
 
   cells.forEach((cell) => {
     if (cell.textContent !== "") {
+      cell.style.transition = "transform 100ms ease-in-out";
       cell.style.transform = `translate(${dx}, ${dy})`;
       setTimeout(() => {
         cell.style.transform = "";
@@ -74,31 +87,29 @@ function addRandomTile() {
       }
     }
   }
-
   if (emptyCells.length === 0) return;
 
   let highestTile = Math.max(...board.flat());
   let tileValues, probabilities;
-
   if (highestTile < 16) {
     tileValues = [2, 4];
     probabilities = [0.8, 0.2];
-} else if (highestTile < 128) {
+  } else if (highestTile < 128) {
     tileValues = [2, 4, 8, 16, 32];
     probabilities = [0.35, 0.3, 0.2, 0.1, 0.05];
-} else if (highestTile < 512) {
+  } else if (highestTile < 512) {
     tileValues = [4, 8, 16, 32, 64, 128];
     probabilities = [0.25, 0.2, 0.2, 0.15, 0.1, 0.1];
-} else if (highestTile < 1024) {
+  } else if (highestTile < 1024) {
     tileValues = [4, 8, 16, 32, 64, 128, 256];
     probabilities = [0.2, 0.2, 0.2, 0.15, 0.1, 0.1, 0.05];
-} else if (highestTile < 2048) {
+  } else if (highestTile < 2048) {
     tileValues = [8, 16, 32, 64, 128, 256, 512];
     probabilities = [0.15, 0.2, 0.2, 0.15, 0.15, 0.1, 0.05];
-} else {
+  } else {
     tileValues = [16, 32, 64, 128, 256, 512, 1024];
-    probabilities = [0.15, 0.2, 0.2, 0.15, 0.15, 0.1, 0.05];  
-}
+    probabilities = [0.15, 0.2, 0.2, 0.15, 0.15, 0.1, 0.05];
+  }
 
   function getRandomTile() {
     let rand = Math.random();
@@ -107,37 +118,84 @@ function addRandomTile() {
       cumulative += probabilities[i];
       if (rand < cumulative) return tileValues[i];
     }
-    return tileValues[tileValues.length - 1]; // fallback jika ada kesalahan
+    return tileValues[tileValues.length - 1];
+let randomValue = Math.random();
+if (randomValue < 0.8) {
+  // 80% kemungkinan
+  let { r, c } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+  board[r][c] = 2;
+} else {
+  // 20% kemungkinan
+  let { r, c } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+  board[r][c] = 4;
+}
   }
 
-  
-let randomValue = Math.random();
-if (randomValue < 1) { 
-  // Tambah 1 tile
   let { r, c } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
   board[r][c] = getRandomTile();
-} 
+
+  // Tambahkan efek animasi pada tile baru
+  setTimeout(() => {
+    let tileElement = document.querySelector(`[data-row="${r}"][data-col="${c}"]`);
+    if (tileElement) {
+      tileElement.classList.add('new-tile');
+      setTimeout(() => {
+        tileElement.classList.remove('new-tile');
+      }, 200);
+    }
+  }, 5); // Delay sedikit biar tile-nya udah muncul dulu
 }
 
-// Update tampilan papan dengan animasi tile baru
 function updateBoard() {
-    let grid = document.getElementById("grid");
-    grid.innerHTML = "";
-
-    for (let r = 0; r < 4; r++) {
-        for (let c = 0; c < 4; c++) {
-            let cell = document.createElement("div");
-            cell.classList.add("cell");
-            if (board[r][c] !== 0) {
-                cell.textContent = board[r][c];
-                cell.setAttribute("data-value", board[r][c]);
-                cell.classList.add("new-tile");
-            }
-            grid.appendChild(cell);
-        }
+  let grid = document.getElementById("grid");
+  grid.innerHTML = "";
+  for (let r = 0; r < 4; r++) {
+    for (let c = 0; c < 4; c++) {
+      let cell = document.createElement("div");
+      cell.classList.add("cell");
+      cell.dataset.row = r;
+      cell.dataset.col = c;
+      if (board[r][c] !== 0) {
+        cell.textContent = board[r][c];
+        cell.setAttribute("data-value", board[r][c]);
+      }
+      grid.appendChild(cell);
     }
+  }
+  
+  updateScore();
+  
+  if (isGameOver()) document.getElementById("game-over").style.display = "block";
+}
 
-    if (isGameOver()) document.getElementById("game-over").style.display = "block";
+const ambien = document.getElementById("ambien");
+
+function tryPlayAmbien() {
+    ambien.volume = 0.8;
+    ambien.play().then(() => {
+        console.log("Ambien diputar");
+        // Hapus event listener biar gak play terus-terusan
+        document.removeEventListener("click", tryPlayAmbien);
+        document.removeEventListener("touchend", tryPlayAmbien);
+        document.removeEventListener("keydown", tryPlayAmbien);
+    }).catch(e => {
+        console.log("Autoplay masih diblokir: ", e);
+    });
+}
+
+// Tambahkan listener interaksi user
+document.addEventListener("click", tryPlayAmbien);
+document.addEventListener("touchend", tryPlayAmbien);
+document.addEventListener("keydown", tryPlayAmbien);
+
+function kembali() {
+  efekTekan();
+  location.replace("menu.html");
+}
+
+function balik() {
+  efekTekan();
+  location.replace("difficult.html");
 }
 
 const naudio = new Audio ("efekGeser.mp3");
@@ -148,6 +206,8 @@ function efekGeser() {
   sound.volume = 0.7;
   sound.play();
 }
+
+let rubel = parseInt(localStorage.getItem('rubel')) || 0;
 
 function moveLeft() {
   efekGeser();
@@ -161,6 +221,9 @@ function moveLeft() {
         for (let i = 0; i < newRow.length - 1; i++) {
             if (newRow[i] === newRow[i + 1]) {
                 newRow[i] *= 2;
+                rubel += newRow[i];
+                localStorage.setItem('rubel', rubel);
+                updateRubelDisplay();
                 newRow.splice(i + 1, 1);
                 newRow.push(0);
                 animations.push({ row: r, from: positions[i + 1], to: i, merge: true });
@@ -194,6 +257,9 @@ function moveRight() {
         for (let i = 0; i < newRow.length - 1; i++) {
             if (newRow[i] === newRow[i + 1]) {
                 newRow[i] *= 2;
+                rubel += newRow[i];
+                localStorage.setItem('rubel', rubel);
+                updateRubelDisplay();
                 newRow.splice(i + 1, 1);
                 newRow.push(0);
                 animations.push({ row: r, from: positions[i + 1], to: 3 - i, merge: true });
@@ -218,86 +284,79 @@ function moveRight() {
 
 function moveUp() {
   efekGeser();
-    let moved = false;
-    let animations = [];
+  let moved = false;
+  let animations = [];
 
-    for (let c = 0; c < 4; c++) {
-        let newCol = [];
-        let positions = [];
-
-        for (let r = 0; r < 4; r++) {
-            if (board[r][c] !== 0) {
-                newCol.push(board[r][c]);
-                positions.push(r);
-            }
-        }
-
-        for (let i = 0; i < newCol.length - 1; i++) {
-            if (newCol[i] === newCol[i + 1]) {
-                newCol[i] *= 2;
-                newCol.splice(i + 1, 1);
-                newCol.push(0);
-                animations.push({ col: c, from: positions[i + 1], to: i, merge: true });
-            }
-        }
-
-        while (newCol.length < 4) newCol.push(0);
-
-        for (let r = 0; r < 4; r++) {
-            if (board[r][c] !== newCol[r]) {
-                moved = true;
-                animations.push({ col: c, from: r, to: newCol.indexOf(board[r][c]), merge: false });
-            }
-            board[r][c] = newCol[r];
-        }
+  for (let c = 0; c < 4; c++) {
+    let newCol = [];
+    for (let r = 0; r < 4; r++) {
+      if (board[r][c] !== 0) newCol.push(board[r][c]);
     }
 
-    if (moved) playAnimation(animations, updateBoard);
-    return moved;
+    for (let i = 0; i < newCol.length - 1; i++) {
+      if (newCol[i] === newCol[i + 1]) {
+        newCol[i] *= 2;
+        rubel += newCol[i];
+        localStorage.setItem('rubel', rubel);
+        updateRubelDisplay();
+        newCol.splice(i + 1, 1);
+        newCol.push(0);
+        animations.push({ col: c, from: i + 1, to: i, merge: true });
+      }
+    }
+
+    while (newCol.length < 4) newCol.push(0);
+
+    for (let r = 0; r < 4; r++) {
+      if (board[r][c] !== newCol[r]) {
+        moved = true;
+        animations.push({ col: c, from: r, to: newCol.indexOf(board[r][c]), merge: false });
+      }
+      board[r][c] = newCol[r];
+    }
+  }
+
+  if (moved) playAnimation(animations, updateBoard);
+  return moved;
 }
 
 function moveDown() {
   efekGeser();
-    let moved = false;
-    let animations = [];
+  let moved = false;
+  let animations = [];
 
-    for (let c = 0; c < 4; c++) {
-        let newCol = [];
-        let positions = [];
-
-        for (let r = 0; r < 4; r++) {
-            if (board[r][c] !== 0) {
-                newCol.push(board[r][c]);
-                positions.push(r);
-            }
-        }
-
-        newCol.reverse();
-        positions.reverse();
-
-        for (let i = 0; i < newCol.length - 1; i++) {
-            if (newCol[i] === newCol[i + 1]) {
-                newCol[i] *= 2;
-                newCol.splice(i + 1, 1);
-                newCol.push(0);
-                animations.push({ col: c, from: positions[i + 1], to: 3 - i, merge: true });
-            }
-        }
-
-        while (newCol.length < 4) newCol.push(0);
-        newCol.reverse();
-
-        for (let r = 0; r < 4; r++) {
-            if (board[r][c] !== newCol[r]) {
-                moved = true;
-                animations.push({ col: c, from: r, to: 3 - newCol.indexOf(board[r][c]), merge: false });
-            }
-            board[r][c] = newCol[r];
-        }
+  for (let c = 0; c < 4; c++) {
+    let newCol = [];
+    for (let r = 3; r >= 0; r--) {
+      if (board[r][c] !== 0) newCol.push(board[r][c]);
     }
 
-    if (moved) playAnimation(animations, updateBoard);
-    return moved;
+    for (let i = 0; i < newCol.length - 1; i++) {
+      if (newCol[i] === newCol[i + 1]) {
+        newCol[i] *= 2;
+        rubel += newCol[i];
+        localStorage.setItem('rubel', rubel);
+        updateRubelDisplay();
+        newCol.splice(i + 1, 1);
+        newCol.push(0);
+        animations.push({ col: c, from: 3 - (i + 1), to: 3 - i, merge: true });
+      }
+    }
+
+    while (newCol.length < 4) newCol.push(0);
+
+    for (let r = 3; r >= 0; r--) {
+      let newValue = newCol[3 - r];
+      if (board[r][c] !== newValue) {
+        moved = true;
+        animations.push({ col: c, from: r, to: 3 - newCol.indexOf(board[r][c]), merge: false });
+      }
+      board[r][c] = newValue;
+    }
+  }
+
+  if (moved) playAnimation(animations, updateBoard);
+  return moved;
 }
 
 function playAnimation(animations, callback) {
@@ -317,22 +376,21 @@ function playAnimation(animations, callback) {
     setTimeout(callback, 5); // Pastikan updateBoard() dipanggil setelah animasi selesai
 }
 
-// Fungsi mengecek apakah masih bisa bermain (Game Over)
 function isGameOver() {
-    for (let r = 0; r < 4; r++) {
-        for (let c = 0; c < 4; c++) {
-            if (board[r][c] === 0) return false; // Masih ada tempat kosong
-            if (c < 3 && board[r][c] === board[r][c + 1]) return false; // Bisa geser kanan
-            if (r < 3 && board[r][c] === board[r + 1][c]) return false; // Bisa geser bawah
-        }
+  for (let r = 0; r < 4; r++) {
+    for (let c = 0; c < 4; c++) {
+      if (board[r][c] === 0) return false;
+      if (r < 3 && board[r][c] === board[r + 1][c]) return false;
+      if (c < 3 && board[r][c] === board[r][c + 1]) return false;
     }
-    
-    // Game over -> hentikan musik
-    bgMusic.pause();
-    musicBtn.innerText = "🔇";
-    
-    return true; // Tidak ada gerakan yang bisa dilakukan
+  }
+  bgMusic.pause();
+musicBtn.innerText = "🔇";
+  updateScore();
+  triggerLightningRepeat();
+  return true;
 }
+
 let highestTile = 0; // Simpan skor tertinggi
 
 function checkWin() {
@@ -340,54 +398,45 @@ function checkWin() {
     for (let c = 0; c < 4; c++) {
       if (board[r][c] === 2048) {
         document.getElementById("win-message").style.display = "block";
-        bgMusic.pause();
-        musicBtn.innerText = "🔇";
         return true;
       }
     }
   }
+  bgMusic.pause();
+musicBtn.innerText = "🔇";
   return false;
 }
 
+const efekAudio = new Audio("efekTekan.mp3");
+
+function efekTekan() {
+  let sound = efekAudio;
+  sound.currentTime = 0;
+  sound.volume = 1;
+  sound.play();
+}
+
 function updateScore() {
+  console.log("score tertinggi diperbarui");
   let maxTile = Math.max(...board.flat()); // Cari angka terbesar di board
   highestTile = Math.max(highestTile, maxTile); // Update kalau lebih besar
   
   document.getElementById("score").innerText = `Blok Tertinggi: ${highestTile}`;
 }
 
-function updateBoard() {
-  let grid = document.getElementById("grid");
-  grid.innerHTML = "";
-  
-  for (let r = 0; r < 4; r++) {
-    for (let c = 0; c < 4; c++) {
-      let cell = document.createElement("div");
-      cell.classList.add("cell");
-      if (board[r][c] !== 0) {
-        cell.textContent = board[r][c];
-        cell.setAttribute("data-value", board[r][c]);
-        cell.classList.add("new-tile");
-      }
-      grid.appendChild(cell);
-    }
-  }
-  
-  updateScore(); // Update skor tiap kali papan diperbarui
-  
-  if (isGameOver()) {
-    document.getElementById("game-over").style.display = "block";
-  } else {
-    checkWin();
-  }
-}
+
 
 // Fungsi untuk restart game
 function restartGame() {
+  efekTekan();
     board = Array(4).fill().map(() => Array(4).fill(0));
     addRandomTile();
     addRandomTile(); // Pastikan ada dua angka awal
     updateBoard();
+    updateScore();
+    updateRubelDisplay();
+    updateAbilitiesUI();
+    
     document.getElementById("game-over").style.display = "none";
 
     // Reset musik agar bisa dimainkan lagi
@@ -397,59 +446,281 @@ function restartGame() {
 // Pastikan game mulai dengan angka awal
 document.addEventListener("DOMContentLoaded", () => {
     restartGame();
+    updateRubelDisplay();
+    updateAbilitiesUI();
+    updateScore();
+    
     addTouchControls(); // Tambahin kontrol swipe buat Android
 });
 
- const bgMusic = document.getElementById("bg-music");
- const musicBtn = document.getElementById("musicBtn");
-
-// Fungsi untuk memutar musik setelah interaksi pertama
-function playMusic() {
-  bgMusic.volume = 0.8;
-    bgMusic.play().then(() => {
-        console.log("Musik diputar otomatis setelah interaksi.");
-        document.removeEventListener("click", playMusic);
-        document.removeEventListener("keydown", playMusic);
-        document.removeEventListener("touchstart", playMusic);
-    }).catch(err => {
-        console.error("Gagal memutar musik:", err);
-    });
+function updateRubelDisplay() {
+    document.getElementById('rubelDisplay').textContent = "Rubel: " + rubel;
 }
 
-// Tambahkan event listener untuk menangkap interaksi pertama
-document.addEventListener("click", playMusic);
-document.addEventListener("keydown", playMusic);
-document.addEventListener("touchstart", playMusic);
+localStorage.setItem('rubel', rubel);
+updateRubelDisplay();
 
-// Loop musik saat selesai
-bgMusic.addEventListener("ended", () => {
-    bgMusic.currentTime = 0; // Kembali ke awal
-    bgMusic.play(); // Mainkan lagi
-});
+let abilities = JSON.parse(localStorage.getItem("abilities"));
+if (!abilities) {
+  abilities = {
+    rocket: 0,
+    horizontal: 0,
+    vertical: 0,
+    bomb: 0
+  };
+}
 
-// Fungsi tombol musik
-musicBtn.addEventListener("touchend", () => {
-    if (bgMusic.paused) {
-        bgMusic.play();
-        musicBtn.innerText = "🔊";
-    } else {
-        bgMusic.pause();
-        musicBtn.innerText = "🔇";
+
+function updateAbilitiesUI() {
+  for (let ability in abilities) {
+    document.getElementById(`stock-${ability}`).textContent = abilities[ability];
+  }
+}
+
+/* fungsi roket */
+function activateRocket() {
+  efekTekan();
+  let count = 0;
+  for (let r = 0; r < 4; r++) {
+    for (let c = 0; c < 4; c++) {
+      if (board[r][c] !== 0) count++;
     }
-});
+  }
+  if (count <= 4) {
+    alert("Tidak bisa menggunakan ability, karena jumlah tile sama atau kurang dari 4!");
+    return;
+  }
+  if (abilities.rocket > 0) {
+    abilities.rocket--;
+    localStorage.setItem("abilities", JSON.stringify(abilities));
+    updateAbilitiesUI();
+    useRocket();
+  } else {
+    alert("Kamu tidak punya Rocket! Beli dulu di shop.");
+  }
+}
+
+function useRocket() {
+  let count = 0;
+  let maxAttempts = 50;
+  let tilesToRemove = 4;
+  let nonEmptyTiles = 0;
+  const tilesToAnimate = [];
+
+  for (let r = 0; r < 4; r++) {
+    for (let c = 0; c < 4; c++) {
+      if (board[r][c] !== 0 && board[r][c] < 128) nonEmptyTiles++;
+    }
+  }
+
+  tilesToRemove = Math.min(tilesToRemove, nonEmptyTiles);
+
+  while (count < tilesToRemove && maxAttempts > 0) {
+    let r = Math.floor(Math.random() * board.length);
+    let c = Math.floor(Math.random() * board[0].length);
+    if (board[r][c] !== 0 && board[r][c] < 128) {
+      const tileElement = document.querySelector(`.cell[data-row="${r}"][data-col="${c}"]`);
+      if (tileElement && !tileElement.classList.contains("shrink-out")) {
+        tileElement.classList.add("shrink-out");
+        tilesToAnimate.push({ r, c });
+        count++;
+      }
+    }
+    maxAttempts--;
+  }
+
+  // Biarkan animasi selesai, baru update board dan reset animasi
+  setTimeout(() => {
+    for (let { r, c } of tilesToAnimate) {
+      board[r][c] = 0;
+    }
+
+    // Setelah update board, reset class shrink-out agar bisa dipakai lagi nanti
+    tilesToAnimate.forEach(({ r, c }) => {
+      const tileElement = document.querySelector(`.cell[data-row="${r}"][data-col="${c}"]`);
+      if (tileElement) {
+        tileElement.classList.remove("shrink-out");
+      }
+    });
+
+    updateBoard();
+  }, 350); // 50ms lebih panjang dari animasi biar pasti selesai
+}
+
+/* fungsi horizontal blast */
+function activateHorizontal() {
+  efekTekan();
+  let count = 0;
+  for (let r = 0; r < 4; r++) {
+    for (let c = 0; c < 4; c++) {
+      if (board[r][c] !== 0) count++;
+    }
+  }
+
+  if (count <= 4) {
+    alert("Tile di board terlalu sedikit untuk menggunakan Horizontal Blast!");
+    return;
+  }
+
+  if (abilities.horizontal > 0) {
+    abilities.horizontal--;
+    localStorage.setItem('abilities', JSON.stringify(abilities));
+    updateAbilitiesUI();
+    useHorizontal();
+  } else {
+    alert("Kamu tidak punya Horizontal Blast! Beli dulu di shop ya.");
+  }
+}
+
+function useHorizontal() {
+  alert("Pilih baris mana saja untuk menghancurkan seluruh baris!");
+  document.getElementById('game-container').addEventListener('touchend', horizontal);
+}
+
+function horizontal(event) {
+  let tile = event.target.closest('.cell');
+  if (tile) {
+    let selectedRow = parseInt(tile.dataset.row);
+    
+    for (let c = 0; c < 4; c++) {
+      const tileElement = document.querySelector(`.cell[data-row="${selectedRow}"][data-col="${c}"]`);
+      if (tileElement) tileElement.classList.add("shrink-out");
+    }
+
+    setTimeout(() => {
+      for (let c = 0; c < 4; c++) {
+        board[selectedRow][c] = 0;
+      }
+      updateBoard();
+    }, 300);
+
+    document.getElementById('game-container').removeEventListener('touchend', horizontal);
+  }
+}
+
+/* fungsi vertical blast */
+function activateVertical() {
+  efekTekan();
+  let count = 0;
+  for (let r = 0; r < 4; r++) {
+    for (let c = 0; c < 4; c++) {
+      if (board[r][c] !== 0) count++;
+    }
+  }
+
+  if (count < 4) {
+    alert("Tile di board terlalu sedikit untuk menggunakan Vertical Blast!");
+    return;
+  }
+
+  if (abilities.vertical > 0) {
+    abilities.vertical--;
+    localStorage.setItem('abilities', JSON.stringify(abilities));
+    updateAbilitiesUI();
+    useVertical();
+  } else {
+    alert("Kamu tidak punya Vertical Blast! Beli dulu di shop ya.");
+  }
+}
+
+function useVertical() {
+  alert("Pilih kolom mana saja untuk menghancurkan seluruh kolom!");
+  document.getElementById('game-container').addEventListener('touchend', vertical);
+}
+
+function vertical(event) {
+  let tile = event.target.closest('.cell');
+  if (tile) {
+    let selectedCol = parseInt(tile.dataset.col);
+
+    for (let r = 0; r < 4; r++) {
+      const tileElement = document.querySelector(`.cell[data-row="${r}"][data-col="${selectedCol}"]`);
+      if (tileElement) tileElement.classList.add("shrink-out");
+    }
+
+    setTimeout(() => {
+      for (let r = 0; r < 4; r++) {
+        board[r][selectedCol] = 0;
+      }
+      updateBoard();
+    }, 300);
+
+    document.getElementById('game-container').removeEventListener('touchend', vertical);
+  }
+}
+
+/* fungsi bomb */
+function activateBomb() {
+  efekTekan();
+  let count = 0;
+  for (let r = 0; r < 4; r++) {
+    for (let c = 0; c < 4; c++) {
+      if (board[r][c] !== 0) count++;
+    }
+  }
+
+  if (count <= 4) {
+    alert("Tile di board terlalu sedikit untuk menggunakan Bomb!");
+    return;
+  }
+
+  if (abilities.bomb > 0) {
+    abilities.bomb--;
+    localStorage.setItem('abilities', JSON.stringify(abilities));
+    updateAbilitiesUI();
+    useBomb();
+  } else {
+    alert("Kamu tidak punya bomb! Beli dulu di shop.");
+  }
+}
+
+let selectedRow, selectedCol;
+function useBomb() {
+  alert("Pilih lokasi board untuk menggunakan bomb!");
+  document.getElementById('game-container').addEventListener('touchend', bombClickHandler);
+}
+
+function bombClickHandler(event) {
+  let tile = event.target.closest('.cell');
+  if (tile) {
+    let selectedRow = parseInt(tile.dataset.row);
+    let selectedCol = parseInt(tile.dataset.col);
+
+    for (let r = Math.max(0, selectedRow); r <= Math.min(3, selectedRow + 1); r++) {
+      for (let c = Math.max(0, selectedCol); c <= Math.min(3, selectedCol + 1); c++) {
+        const tileElement = document.querySelector(`.cell[data-row="${r}"][data-col="${c}"]`);
+        if (tileElement) tileElement.classList.add("shrink-out");
+      }
+    }
+
+    setTimeout(() => {
+      for (let r = Math.max(0, selectedRow); r <= Math.min(3, selectedRow + 1); r++) {
+        for (let c = Math.max(0, selectedCol); c <= Math.min(3, selectedCol + 1); c++) {
+          board[r][c] = 0;
+        }
+      }
+
+      updateBoard();
+    }, 300);
+
+    document.getElementById('game-container').removeEventListener('touchend', bombClickHandler);
+  }
+}
 
 const restartBtn = document.getElementById("restartBtn"); // Ambil tombol restart
-const gameBoard = document.getElementById("game-board"); // Ambil elemen permainan
+const gameBoard = document.getElementById("game-container"); // Ambil elemen permainan
 
 restartBtn.addEventListener("touchend", () => {
     resetGame();
 });
 
 function resetGame() {
+  efekTekan();
 board = Array(4).fill().map(() => Array(4).fill(0));
     addRandomTile();
     addRandomTile(); // Pastikan ada dua angka awal
     updateBoard();
+    updateScore();
     document.getElementById("game-over").style.display = "none";
 
 
@@ -459,10 +730,62 @@ bgMusic.currentTime = 0;
 
 function startGame() {
     console.log("Game dimulai ulang!");
+    updateRubelDisplay();
+    updateAbilitiesUI();
 addRandomTile();
 addRandomTile();
 
 bgMusic.currentTime = 0;
+}
+
+const bgMusic = document.getElementById("bg-music");
+const musicBtn = document.getElementById("musicBtn");
+
+// Fungsi untuk memutar musik setelah interaksi pertama
+function playMusic() {
+  bgMusic.play().then(() => {
+    console.log("Musik diputar otomatis setelah interaksi.");
+    document.removeEventListener("click", playMusic);
+    document.removeEventListener("keydown", playMusic);
+    document.removeEventListener("touchstart", playMusic);
+  }).catch(err => {
+    console.error("Gagal memutar musik:", err);
+  });
+}
+
+// Tambahkan event listener untuk menangkap interaksi pertama
+document.addEventListener("click", playMusic);
+document.addEventListener("keydown", playMusic);
+document.addEventListener("touchstart", playMusic);
+
+// Loop musik saat selesai
+bgMusic.addEventListener("ended", () => {
+  bgMusic.currentTime = 0; // Kembali ke awal
+  bgMusic.play(); // Mainkan lagi
+});
+
+// Fungsi tombol musik
+musicBtn.addEventListener("touchend", () => {
+  efekTekan();
+  if (bgMusic.paused) {
+    bgMusic.play();
+    musicBtn.innerText = "🔊";
+  } else {
+    bgMusic.pause();
+    musicBtn.innerText = "🔇";
+  }
+});
+
+function efekTekan() {
+  let sound = efekAudio;
+  sound.currentTime = 0;
+  sound.volume = 1;
+  sound.play();
+}
+
+function exit() {
+  efekTekan();
+  location.replace("difficult.html");
 }
 
 const canvas = document.getElementById("games");
@@ -497,14 +820,14 @@ const thunderSounds = [
 function playThunderSoundShort() {
     let sound = thunderSounds[0];
     sound.currentTime = 0; // Restart suara dari awal
-    sound.volume = 0.8;
+    sound.volume = 0.5;
     sound.play();
 }
 
 function playThunderSoundLong() {
     let sound = thunderSounds[1];
     sound.currentTime = 0; // Restart suara dari awal
-    sound.volume = 0.8;
+    sound.volume = 0.5;
     sound.play();
 }
 
@@ -513,7 +836,7 @@ function triggerLightning() {
     if (!flashing) {
       playThunderSoundShort(); // Mainkan suara petir
         flashing = true;
-        flashOpacity = 0.8;
+        flashOpacity = 0.7;
 
         let fadeOut = setInterval(() => {
             flashOpacity -= 0.1;
@@ -579,4 +902,4 @@ setInterval(() => {
     let rand = Math.random();
     if (rand > 0.8) triggerLightningRepeat();
     else if (rand > 0.6) triggerLightning();
-}, 6000);
+}, 8000);

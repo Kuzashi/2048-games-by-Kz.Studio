@@ -30,26 +30,25 @@
 </head>
 <body>
 
-<div id="preloader">
-  <video id="intro-video" src="Kz_Studio.mp4" autoplay muted></video>
-</div>
+  <div id="preloader">
+    <video id="intro-video" src="splash.mp4" autoplay muted></video>
+  </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const video = document.getElementById("intro-video");
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const video = document.getElementById("intro-video");
 
-  // Kalau video selesai, pindah halaman
-  video.addEventListener("ended", function () {
-    window.location.href = "choose-login.html";
-  });
+      // Kalau video selesai, pindah halaman
+      video.addEventListener("ended", function () {
+        location.replace("choose-login.html");
+      });
 
-  // Safety timeout kalau video ngadat
-  setTimeout(() => {
-    window.location.href = "choose-login.html";
-  }, 6000); // Jaga-jaga, maksimal 6 detik
-
-});
-</script>
+      // Safety timeout kalau video ngadat
+      setTimeout(() => {
+        location.replace("choose-login.html");
+      }, 6000); // Jaga-jaga, maksimal 6 detik
+    });
+  </script>
 
 </body>
 </html>

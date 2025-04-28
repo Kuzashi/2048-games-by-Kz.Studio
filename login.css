@@ -20,9 +20,10 @@ background-repeat: no-repeat;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     text-align: center;
     width: 300px;
+    height: auto;
 }
 input {
-    width: 100%;
+    width: 85%;
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ccc;
@@ -39,4 +40,14 @@ button {
 }
 button:hover {
     background: darkblue;
+}
+
+#exit {
+    position: fixed;
+    top: 95%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 81vw;
+    height: auto;
+    margin: 6px;
 }

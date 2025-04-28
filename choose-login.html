@@ -1,23 +1,19 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pilih Login</title>
-    <link rel="stylesheet" href="c-l.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pilih Login</title>
+  <link rel="stylesheet" href="c-l.css">
 </head>
 <body>
-
-</form>
-
-    <div class="container">
-        <h2>Pilih Cara Masuk</h2>
-        <button onclick="goToLogin()">Login / Sign-Up</button>
-        <button onclick="guestMode()">Main Sebagai Tamu</button>
-    </div>
-    <script>
-    
-    const naudio = new Audio ("efekTekan.mp3");
+  <div class="container">
+    <h2>Pilih Cara Masuk</h2>
+    <button onclick="goToLogin()">Login / Sign-Up</button>
+    <button onclick="guestMode()">Main Sebagai Tamu</button>
+  </div>
+  <script>
+    const naudio = new Audio("efekTekan.mp3");
     
     function efekTekan() {
       let sound = naudio;
@@ -26,15 +22,16 @@
       sound.play();
     }
     
-        function goToLogin() {
-          efekTekan();
-            location.replace("login.html");
-        }
-
-        function guestMode() {
-                    efekTekan();
-                    location.replace("menu.html"); 
-                }
-    </script>
+    function goToLogin() {
+      efekTekan();
+      location.replace("login.html");
+    }
+    
+    function guestMode() {
+      efekTekan();
+      location.replace("menu.html");
+    }
+    
+  </script>
 </body>
 </html>

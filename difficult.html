@@ -8,23 +8,24 @@
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
 
     body {
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Orbitron', sans-serif;
-      color: #fff;
-    }
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  min-height: 100vh;
+  font-family: 'Orbitron', sans-serif;
+  color: #fff;
+  margin: 0;
+  padding: 20px 0;
+  overflow-x: hidden; /* Cegah scroll horizontal */
+}
 
     .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      padding: 20px;
-      animation: fadeIn 1s ease-out;
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
     
     .glitch {
   position: relative;
@@ -172,6 +173,14 @@ h1 {
       font-size: 70px;
       z-index: 2;
     }
+    
+    details {
+      animation: turunDariAtas 0.8s forwards;
+    }
+    
+    details:close {
+      animation: naikKeAtas 0.8s forwards;
+    }
 
     @keyframes turunDariAtas {
       0% {
@@ -194,28 +203,136 @@ h1 {
         box-shadow: 0 0 25px #0ff;
       }
     }
+    
+    @keyframes turun {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-turun {
+  animation: turun 0.8s;
+}
+
+.detail {
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .detail {
+  background: transparent;
+  color: white;
+}
+    
+    .ability:hover {
+      background: #f0f0f0;
+    }
+    
+    .buka {
+  animation: turun 0.8s forwards;
+}
+
+/* Style untuk summary */
+summary {
+  cursor: pointer;
+  padding: 10px;
+  background: rgba(0, 255, 255, 0.1);
+  border-radius: 5px;
+  margin-top: 5px;
+  transition: all 0.3s;
+}
+
+summary:hover {
+  background: rgba(0, 255, 255, 0.2);
+}
+
+/* Style untuk konten details */
+.content {
+  padding: 10px;
+  margin-top: 5px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}
+
   </style>
 </head>
 <body>
+  
+  <audio id="bg-music" autoplay loop>
+  <source src="Air Gelap.mp3" type="audio/mp3">
+</audio>
+<p style="color: rgba(255, 255, 255, 0.7); position: absolute; top: 1%; right: 20%; transform: translate(-50%, -50%);">Version: 1.4.0</p>
   <div class="container">
     <h1 class="glitch" data-text="Pilih Kesulitan">Pilih Kesulitan</h1>
     <button id="back" class="glitch" data-text="BACK" onclick="back()">BACK</button>
+    
+    <div class="detail">
     <div class="difficulty-option easy" onclick="selectDifficulty('easy')">
       <img src="ikon daun.jpg" alt="Easy Mode">
       <span class="glitch" data-text="Easy">Easy</span>
     </div>
+    <details>
+      <summary>Detail Tentang Mode Ini...</summary>
+      <p id="p">Easy mode, yeah mode yang mudah.<br>
+      Mode ini akan memberikan pengalaman bermain yang<br>
+      lebih simple ataupun tidak tergesa gesa.</p>
+      </details>
+    </div>
+    
+    <div class="detail">
     <div class="difficulty-option standard" onclick="selectDifficulty('standard')">
       <img src="ikon petir.jpg" alt="Standard Mode">
       <span class="glitch" data-text="Standard">Standard</span>
     </div>
+    <details>
+      <summary>Detail Tentang Mode ini...</summary>
+      <p id="p"> Mode kali ini menurutku engga susah, engga mudah ya.. seimbang lah.<br>
+      Tile yang muncul bisa satu atau dua ya, pakai strategi aja ini. Btw, kecilkan suara ponsel, terkadang ada suara petir kuat, hehe.</p>
+    </details>
+    </div>
+    
+    <div class="detail">
     <div class="difficulty-option expert" onclick="selectDifficulty('expert')">
       <img src="ikon api.jpg" alt="Expert Mode">
       <span class="glitch" data-text="Expert">Expert</span>
     </div>
+    <details>
+      <summary>Detail Tentang Mode ini...</summary>
+      <p id="p">Mode ini gak punya suasana yang mencekam, namun aku gak yakin kalian bisa tamat...<br>
+      Tile yang muncul bisa satu, dua, bahkan tiga, dan kalian bakalan dipaksa bermain dengan tile tinggi. Kalau kalian pakai strategi, ini bakalan mudah kok. Ya kan?</p>
+    </details>
+    </div>
+    
+    <div class="detail">
     <div class="difficulty-option coming" onclick="selectDifficulty('coming')">
-      <p class="glitch" data-text="????????">????????</p>
+      <p class="glitch" data-text="?????????????">?????????????</p>
       <span class="glitch" data-text="Coming soon">Coming soon</span>
     </div>
+    <details>
+      <summary>????????????</summary>
+      <p id="p">????????????</p>
+    </details>
+    </div>
+  </div>
+  
+  <div class="detail">
+    <div class="difficulty-option musik" onclick="selectDifficulty('musik')">
+      <img src="ikon musik.jpg" alt="Foto-eror">
+      <span class="glitch" data-text="Music Room">Music Room</span>
+    </div>
+    <details>
+      <summary>Detail Selengkapnya..</summary>
+      <p id="p">Nikmati musik sesuai saran kami, dan kami juga memasuki musik, atau ambien yang yang kami gunakan. Rileks-lah, terima kasih sudah bermain :D</p>
+    </details>
   </div>
 
   <script>
@@ -230,7 +347,7 @@ h1 {
     function back() {
       efekTekan();
       setTimeout(() => {
-        window.location.href = "menu.html";
+        location.replace("menu.html");
       }, 300); // kasih delay sedikit biar efek suara terasa
     }
 
@@ -241,13 +358,38 @@ h1 {
         standard: "standar.html",
         expert: "expert.html",
         coming: "coming.html",
-        relax: "relax.html"
+        musik: "music.html"
       };
       setTimeout(() => {
-        window.location.href = pages[difficulty];
+        location.replace(pages[difficulty]);
       }, 300);
     }
+    
+    const details = document.querySelectorAll("details");
+
+details.forEach(detail => {
+  detail.addEventListener("toggle", () => {
+    const content = detail.querySelector("p");
+    if (detail.open) {
+      content.classList.remove("animate-turun");
+      void content.offsetWidth; // trigger ulang
+      content.classList.add("animate-turun");
+    }
+  });
+});
+
+function addMultiEventListener(element, events, handler) {
+  events.forEach(event => {
+    element.addEventListener(event, handler);
+  });
+}
+
+document.querySelectorAll("summary").forEach(summary => {
+  addMultiEventListener(summary, ["click", "touchend", "keydown"], () => {
+    efekTekan();
+  });
+});
+
   </script>
 </body>
-                                                                </html>
-                                                                
+</html>

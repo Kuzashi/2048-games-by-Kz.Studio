@@ -18,12 +18,12 @@ body {
 
 h2 {
     position: absolute;
-    top: 10%;
+    top: 5%;
     left: 50%;
     transform: translateX(-50%);
     color: #f0f0f0;
     text-align: center;
-    line-height: 1.4;
+    line-height: 1.1;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
     white-space: pre-line;
 }
@@ -31,7 +31,7 @@ h2 {
 /* Container tombol */
 #kontainerMasuk {
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
@@ -41,6 +41,7 @@ h2 {
     background: rgba(40, 40, 60, 0.3);
     backdrop-filter: blur(12px);
     padding: 40px;
+    margin: 0;
     width: 80vw;
     border-radius: 20px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
