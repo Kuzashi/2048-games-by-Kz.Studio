@@ -3,7 +3,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
-  <title>2048 Games By Kz.Studio</title>
+  <title>2048 Games</title>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script>
     function onSubmit(token) {
@@ -44,45 +44,12 @@
 </head>
 <body>
   <div class="captcha-container">
-    <form id="captcha-form" onsubmit="return handleCaptchaSubmit(event)">
-  <div class="g-recaptcha" data-sitekey="6Le3PxsrAAAAABowbiaZ1WWUnkIp3FNnFQ9N_F6F"></div>
-  <div id="kotakPesan">
-    <p id="pesan">Tolong bantu kami menciptakan lingkungan permainan<br> yang baik dan aman tanpa ada gangguan DDOS</p>
+    <form id="captcha-form" action="intro.html">
+      <div class="g-recaptcha" data-sitekey="6Le3PxsrAAAAABowbiaZ1WWUnkIp3FNnFQ9N_F6F" data-callback="onSubmit"></div>
+      <div id="kotakPesan">
+        <p id="pesan">Tolong bantu kami menciptakan lingkungan permainan<br> yang baik dan aman tanpa ada gangguan DDOS</p>
+      </div>
+    </form>
   </div>
-  <button type="submit">Lanjutkan</button>
-</form>
-  </div>
-  <script>
-  function handleCaptchaSubmit(event) {
-    event.preventDefault(); // stop form dulu
-
-    const token = grecaptcha.getResponse();
-    if (!token) {
-      alert("Captcha belum dikerjakan.");
-      return false;
-    }
-
-    // Verifikasi token ke Google pakai Fetch + layanan perantara
-    fetch('https://api.captchaverify.workers.dev/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        secret: '6LeEOxsrAAAAACYNT5ONUWePRmqbQnbk2c8fuH2f', // Ganti dengan secret key reCAPTCHA kamu
-        response: token
-      })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        window.location.href = 'intro.html'; // lanjut jika lolos
-      } else {
-        alert("Verifikasi gagal. Coba lagi ya.");
-      }
-    })
-    .catch(() => alert("Gagal memverifikasi. Coba lagi."));
-    
-    return false;
-  }
-</script>
 </body>
 </html>
