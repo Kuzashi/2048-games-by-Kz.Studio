@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="menu.css">
+  <title>Menu Game</title>
+</head>
+
+<body>
+  <!-- Audio Background -->
+  <audio id="bg-music" loop>
+    <source src="Air Gelap.mp3" type="audio/mpeg">
+    Browser kamu tidak mendukung elemen audio.
+  </audio>
+  
+  <h2>SELAMAT DATANG DI 2048 Games!<br>
+  Enjoy :3</h2>
+  <p style="position: absolute; top: 3%; left: 3%; color: rgba(256, 256, 256, 0.6)"><small>Version: v1.5.0.01.6miJAD</small></p>
+  <p style="position: absolute; top: 30%; left: 17%; color: rgba(256, 256, 256, 0.6)"><small>Made By: Kz.Studio</small></p>
+  <p style="position: absolute; top: 30%; left: 46%; color: rgba(256, 256, 256, 0.6)"><small>and thanks for Alina Mika</small></p>
+
+<div id="loading-spinner" style="display: none;">
+  <div class="spinner"></div>
+</div>
+
+  <div id="kontainerMasuk">
+    <button id="masuk" onclick="openLogin()">▶️ Play Games</button>
+    <button id="keluar" onclick="exit()">🚪 Exit</button>
+    <button id="shop" onclick="shop()">🛒 Shop</button>
+    <button id="settingsBtn" onclick="toggleSettings()">⚙️ Pengaturam</button>
+  </div>
+  
+<div onclick="yourAdd()" style="
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid white;
+  width: 90vw;
+  height: 20vh;
+  overflow: hidden;
+  cursor: pointer;
+">
+  <img src="iklanKomunitas.jpg" style="width: 100%; height: 100%; object-fit: cover;" />
+  
+  <div style="
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    z-index: 2;
+  ">
+    AD
+  </div>
+  <div style="
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    z-index: 2;
+    text-align: center;
+  ">
+    Komunitas BA ★H★ || FG
+    </div>
+</div>
+
+<div id="popupAdd" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background-color: white; border: 2px solid #333; border-radius: 10px; padding: 20px; z-index: 1000; box-shadow: 0 0 10px #000;">
+  <h3 style="margin-bottom: 10px;">Link Grup WhatsApp</h3>
+  <button onclick="salinLink()" style="margin: 5px; color: black;">Salin Link</button>
+  <button onclick="bukaLink()" style="margin: 5px; color: black;">Buka Link</button>
+  <button onclick="tutupPopup()" style="margin-top: 10px; background-color: red; color: white;">Tutup</button>
+</div>
+
+  <!-- Kontainer Pengaturan -->
+  <div id="settingsContainer" class="settings-container">
+    <button onclick="toggleSettings()">Close Settings</button>
+    <label for="bgMusic">Background Music: </label>
+    <input style="margin-bottom: 5px;" type="checkbox" id="bgMusic" onchange="toggleMusic()">
+    <p><br></p>
+    <button onclick="add()">Layanan periklanan</button>
+    <p><br></p>
+    <p>dukung kami dengan donasi.<br> Dana:<br> 0813-6170-5396</p>
+    <p><br></p>
+    <p><br></p>
+    <p><br></p>
+    <p>Follow Kz.Studio Channel in WhatsApp</p>
+    <button id="follow" onclick="follow()">Follow the Channel</button>
+    <p><br></p>
+    <p><br></p>
+    <p><br></p>
+    <p>Lihat Credit Tim Kz.Studio</p>
+    <button onclick="credit()">Credit Crew</button>
+    <p><br></p>
+    <button id="tutorial" onclick="tutorial()">? Tutorial/petunjuk</button>
+    <p><br></p>
+    <button id="kontak" onclick="openWa()">📢 Report and ratting ★</button>
+    <p><br></p>
+    <button id="out" onclick="logOut()">Log-out</button>
+  </div>
+  
+  
+
+  <script src="menu.js"></script>
+</body>
+
+</html>

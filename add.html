@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kz.Studio - Solusi Pemasaran Digital Anda</title>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif; /* Font modern dan profesional */
+      background: linear-gradient(135deg, #f0f2f0, #e0e0e0); /* Gradien lembut netral */
+      color: #263238; /* Warna teks gelap yang profesional */
+      line-height: 1.8;
+      padding-top: 60px; /* Ruang untuk navigasi tetap */
+      overflow-x: hidden;
+    }
+    
+#kembali {
+  position: fixed;
+  padding: 12px 20px;
+  background-color: #007bff; /* Warna biru primer */
+  color: white; /* Warna teks putih */
+  border: none; /* Menghilangkan garis tepi */
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Efek bayangan tipis */
+  transition: background-color 0.3s ease;
+}
+
+#kembali:hover {
+  background-color: #0056b3; /* Warna biru lebih gelap saat dihover */
+}
+
+
+#kembali:hover {
+  background-color: #ddd; /* Warna latar belakang saat dihover */
+}
+
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(255, 255, 255, 0.9); /* Latar belakang putih semi-transparan */
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      height: 50px;
+      display: flex;
+      justify-content: space-between; /* Logo di kiri, menu di kanan */
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .logo {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: #00bcd4; /* Warna aksen */
+      text-decoration: none;
+    }
+
+    .nav-links-container {
+      display: flex;
+      align-items: center;
+    }
+
+    nav a {
+      color: #263238;
+      text-decoration: none;
+      margin-left: 20px;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+      background-color: #00bcd4;
+      color: #fff;
+    }
+
+    section {
+      padding: 80px 30px;
+      min-height: calc(100vh - 50px);
+      background-color: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      margin-bottom: 20px; /* Spasi antar section */
+      border-radius: 8px;
+    }
+
+    section:last-child {
+      margin-bottom: 0;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 120px 30px;
+      background: url('https://images.unsplash.com/photo-1551033406-611cf9a28f67?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat; /* Gambar periklanan/digital marketing */
+      color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero p {
+      font-size: 1.2em;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .service-card {
+      padding: 30px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+      text-align: center;
+    }
+
+    .service-card h3 {
+      color: #00bcd4;
+      margin-bottom: 15px;
+    }
+
+    .service-card p {
+      color: #546e7a;
+      line-height: 1.6;
+    }
+
+    h2 {
+      color: #00bcd4;
+      border-bottom: 2px solid #00bcd4;
+      padding-bottom: 15px;
+      margin-bottom: 30px;
+      font-size: 2em;
+      text-align: center;
+    }
+
+    .contact-info {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .contact-info p {
+      margin-bottom: 10px;
+      color: #546e7a;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #263238;
+      color: white;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <nav>
+    <a href="#" class="logo">Kz.Studio</a>
+    <div class="nav-links-container">
+      <a href="#layanan" class="nav-link">Layanan</a>
+      <a href="#kontak" class="nav-link">Kontak</a>
+    </div>
+  </nav>
+  
+  <button id="kembali" onclick="kembali()">⟨⟨⟨ Back to Menu</button>
+
+  <section class="hero">
+    <h1>Solusi Pemasaran Digital Terpadu</h1>
+    <p>Tingkatkan visibilitas dan penjualan jasa, barang, dan komunitas online Anda dengan strategi pemasaran yang efektif.</p>
+  </section>
+
+  <section id="layanan">
+    <h2>Layanan Periklanan Kami</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <h3>Promosi Jasa Online</h3>
+        <p>Kami membantu mempromosikan berbagai jenis jasa online Anda, termasuk bot WhatsApp, konsultasi, pelatihan, dan layanan digital lainnya.</p>
+      </div>
+      <div class="service-card">
+        <h3>Pemasaran Produk dan Barang</h3>
+        <p>Tingkatkan penjualan produk dan barang jualan Anda melalui strategi pemasaran digital yang terarah dan menarik.</p>
+      </div>
+      <div class="service-card">
+        <h3>Pengembangan Komunitas Online</h3>
+        <p>Kami bantu membangun dan mempromosikan komunitas online Anda, seperti grup media sosial, forum, dan platform lainnya.</p>
+      </div>
+      <div class="service-card">
+        <h3>Kampanye Iklan Tertarget</h3>
+        <p>Rancang dan jalankan kampanye iklan yang efektif di berbagai platform untuk menjangkau audiens yang tepat untuk jasa, barang, atau komunitas Anda.</p>
+      </div>
+      <div class="service-card">
+        <h3>Manajemen Media Sosial</h3>
+        <p>Kelola dan optimalkan kehadiran media sosial Anda untuk meningkatkan interaksi, kesadaran merek, dan pertumbuhan komunitas.</p>
+      </div>
+      <div class="service-card">
+        <h3>Slot tersedia</h3>
+        <p>Slot tersedia sekarang: 2, kalian bisa memasarkan produk, jasa, atau komunitas online</p>
+      </div>
+      <div class="service-card">
+        <h3>Bagaimana cara kami menampilkan iklan?</h3>
+        <p>Kami bisa menyampaikan produk, jasa, barang, komunitas online kalian di game kami, di website kami, dan di platform online kami</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="kontak">
+    <h2>Hubungi Kami</h2>
+    <div class="contact-info">
+      <p>Siap untuk meningkatkan efektivitas periklanan Anda?</p>
+      <p>Hubungi tim profesional kami di:</p>
+      <a href="mailto: teamkzstudiodevelopment@gmail.com">Kirim Email ke KZ Studio</a>
+      <p>Telepon: <a href="https://wa.me/6282180373498?text=Permisi,%20saya%20dari%20[Nama%20Perusahaan]%20ingin%20mengajukan%20penawaran%20iklan%20untuk%20produk%20[Nama%20Produk].">Hubungi Admin Pengiklanan</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Kz.Studio - Solusi Pemasaran Digital Anda</p>
+  </footer>
+
+  <script>
+    const navLinks = document.querySelectorAll('.nav-links-container a');
+    const sections = document.querySelectorAll('section');
+    
+    function kembali() {
+      location.replace("menu.html");
+    }
+
+    function setActiveLink() {
+      let currentSectionId = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionBottom = sectionTop + section.offsetHeight;
+        if (window.scrollY >= sectionTop - 50 && window.scrollY < sectionBottom - 50) {
+          currentSectionId = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').slice(1) === currentSectionId) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', setActiveLink);
+    document.addEventListener('DOMContentLoaded', () => {
+      if (navLinks.length > 0) {
+        navLinks[0].classList.add('active'); // Set link pertama aktif saat load
+      }
+    });
+  </script>
+
+</body>
+
+</html>
