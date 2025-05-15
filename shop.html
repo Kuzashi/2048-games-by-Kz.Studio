@@ -1,6 +1,4 @@
-<!DOCTYPE html><html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html><html><head>  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Shop - 2048 Game</title>
   <style>
@@ -9,251 +7,307 @@
       background: #faf8ef;
       padding: 20px;
     }
-#shop {
-max-width: 90vw;
-height: auto;
-margin: 5 auto; 
-background:white;
-padding: 20px;
-padding-bottom: 30px; /* Tambahan ruang bawah */ border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); 
-  
+    #shop {
+      max-width: 90vw;
+      height: auto;
+      margin: 5 auto; 
+      background:white;
+      padding: 20px;
+      padding-bottom: 30px;
+      border-radius: 10px; 
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); 
+    }.ability, .detail { 
+  border: 1px solid #ddd; 
+  padding: 15px; 
+  margin-bottom: 10px; 
+  border-radius: 5px; 
+  cursor: pointer; 
+  transition: background 0.3s; 
+  position: relative;
+  overflow: hidden;
 }
 
-.ability,
-.detail {
-  border: 1px solid #ddd;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.detail {
-background: linear-gradient(to right, skyblue, blue, darkblue); color: white;
-}
-
-.ability:active {
-  background: #f0f0f0;
-}
-
-.buka {
-animation: turun 0.8s forwards;
-}
-
-#close {
-position: fixed;
-top: 5%;
-left: 10%;
-transform: translateX(-50%);
-width: 30vw;
-height: 40px;
-background: linear-gradient(to right, #8f7a66, #a08971);
-font-size: 1.1em;
-color: white;
-border: none;
-border-radius: 10px;
-font-weight: bold;
-font-size: 1em;
-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-cursor: pointer;
-}
-
-#close:active { transform: translate(-50%, 2px); box-shadow: none; }
-
-#rubel-counter {
-  font-size: 1.2em;
-  margin-bottom: 20px;
+.discount-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ff4757;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 0.8em;
   font-weight: bold;
-}
-.ability h3 {
-  margin-top: 0;
-  color: #8f7a66;
-}
-.stock {
-  font-size: 0.9em;
-  color: #666;
+  animation: pulse 2s infinite;
 }
 
-@keyframes turun { 0% { transform: translateY(-50px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+.original-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.9em;
+}
+
+.discounted-price {
+  color: #ff4757;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.detail { 
+  background: linear-gradient(to right, skyblue, blue, darkblue); 
+  color: white; 
+}
+
+.ability:active { background: #f0f0f0; }
+
+.buka { animation: turun 0.8s forwards; }
+
+#close { 
+  position: fixed; 
+  top: 5%; 
+  left: 10%; 
+  transform: translateX(-50%); 
+  width: 30vw; 
+  height: 40px; 
+  background: linear-gradient(to right, #8f7a66, #a08971); 
+  font-size: 1.1em; 
+  color: white; 
+  border: none; 
+  border-radius: 10px; 
+  font-weight: bold; 
+  font-size: 1em; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+  cursor: pointer; 
+}
+
+#close:active { 
+  transform: translate(-50%, 2px); 
+  box-shadow: none; 
+}
+
+#rubel-counter { 
+  font-size: 1.2em; 
+  margin-bottom: 20px; 
+  font-weight: bold; 
+} 
+.ability h3 { 
+  margin-top: 0; 
+  color: #8f7a66; 
+} 
+.stock { 
+  font-size: 0.9em; 
+  color: #666; 
+}
+
+@keyframes turun { 
+  0% { transform: translateY(-50px); opacity: 0; } 
+  100% { transform: translateY(0); opacity: 1; } 
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
 
 .animate-turun { animation: turun 0.8s; }
 
-/* Style untuk summary */ summary { cursor: pointer; padding: 10px; background: rgba(0, 255, 255, 0.1); border-radius: 5px; margin-top: 5px; transition: all 0.3s; }
+/* Style untuk summary */
+summary { 
+  cursor: pointer; 
+  padding: 10px; 
+  background: rgba(0, 255, 255, 0.1); 
+  border-radius: 5px; 
+  margin-top: 5px; 
+  transition: all 0.3s; 
+}
 
-summary:hover { background: rgba(0, 255, 255, 0.2); }
+summary:hover { 
+  background: rgba(0, 255, 255, 0.2); 
+}
 
-@keyframes keluar { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-20px); } }
+@keyframes keluar { 
+  0% { opacity: 1; transform: translateY(0); } 
+  100% { opacity: 0; transform: translateY(-20px); } 
+}
 
-.animate-keluar { animation: keluar 0.5s forwards; } </style>
-</style>
+.animate-keluar { animation: keluar 0.5s forwards; }
+
+  </style>
 </head>
-<body>
-  
+<body>  
   <audio id="bg-music" autoplay loop>
-  <source src="Air Gelap.mp3" type="audio/mp3">
-</audio>
-
+    <source src="Air Gelap.mp3" type="audio/mp3">
+  </audio>  
   <div id="shop">
-    
     <div id="confirm-popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:50px; border-radius:10px; box-shadow:0 0 20px rgba(0,0,0,0.4); z-index:1000; width: 60%;">
-  <p id="confirm-text" style="margin-bottom:20px;">Kamu yakin ingin membeli ability ini?</p>
-  <button onclick="confirmPurchase()" style="margin:10px; padding:10px 15px; background:#4CAF50; color:white; border:none; border-radius:5px; cursor:pointer; width: 80%">Iya</button>
-  <button onclick="cancelPurchase()" style="margin:10px; padding:10px 15px; background:#f44336; color:white; border:none; border-radius:5px; cursor:pointer; width: 80%;">Batal</button>
-</div>
-<div id="popup-overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:999;" onclick="cancelPurchase()"></div>
-
+      <p id="confirm-text" style="margin-bottom:20px;">Kamu yakin ingin membeli ability ini?</p>
+      <button onclick="confirmPurchase()" style="margin:10px; padding:10px 15px; background:#4CAF50; color:white; border:none; border-radius:5px; cursor:pointer; width: 80%">Iya</button>
+      <button onclick="cancelPurchase()" style="margin:10px; padding:10px 15px; background:#f44336; color:white; border:none; border-radius:5px; cursor:pointer; width: 80%;">Batal</button>
+    </div>
+    <div id="popup-overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:999;" onclick="cancelPurchase()"></div>
     <h1>🛒 Toko Ability</h1>
     <div id="rubel-counter">Рубль: <span id="rubel-amount">0</span>.</div>
     <div class="detail">
-    <div class="ability" onclick="buyAbility('rocket')">
-      <h3>🚀 Rocket<br>
-      ———————</h3>
-      <p>Hancurkan 4 tile acak</p>
-      <p>Harga: <strong>300 Rubel</strong></p>
-      <p class="stock">Stok: <span id="stock-rocket">0</span></p>
+      <div class="ability" onclick="buyAbility('rocket')">
+        <div class="discount-badge">OFF -50%</div>
+        <h3>🚀 Rocket<br>
+        ———————</h3>
+        <p>Hancurkan 4 tile acak</p>
+        <p>
+          <span class="original-price">600 Rubel</span><br>
+          <span class="discounted-price">Harga: 300 Rubel</span>
+        </p>
+        <p class="stock">Stok: <span id="stock-rocket">0</span></p>
+      </div>
+      <details>
+        <summary>Penjelasan...</summary>
+        <p id="p">Rocket ini akan menghancurkan 4 tiles<br>
+          secara random dari kotakmu.<br>
+          jika di kotakmu hanya ada 4 atau kurang dari 4 tiles<br>
+          maka ability ini tidak akan bekerja, kenapa?<br>
+          Untuk memastikan ability ini mengerjakan tugasnya<br>
+          secara optimal, sekaligus menghindari bug yang tidak di inginkan</p>
+      </details>
     </div>
-    <details>
-  <summary>Penjelasan...</summary>
-  <p id="p">Rocket ini akan menghancurkan 4 tiles<br>
-    secara random dari kotakmu.<br>
-    jika di kotakmu hanya ada 4 atau kurang dari 4 tiles<br>
-    maka ability ini tidak akan bekerja, kenapa?<br>
-    Untuk memastikan ability ini mengerjakan tugasnya<br>
-    secara optimal, sekaligus menghindari bug yang tidak di inginkan</p>
-</details>
-    </div><div class="detail">
-<div class="ability" onclick="buyAbility('horizontal')">
-  <h3>↔️ Horizontal Blast<br>
-  ————————————</h3>
-  <p>Hapus 1 baris horizontal</p>
-  <p>Harga: <strong>260 Rubel</strong></p>
-  <p class="stock">Stok: <span id="stock-horizontal">0</span></p>
-</div>
-<details>
-  <summary>Penjelasan..</summary>
-  <p id="p"><strong>Horizontal Blast!</strong><br>
-  <br>
-  Ability ini akan menghancurkan seluruh kotak horizontal yang kamu pilih, cukup keren benar?</p>
-</details>
-</div>
-
-<div class="detail">
-<div class="ability" onclick="buyAbility('vertical')">
-  <h3>↕️ Vertical Blast</h3>
-  <p>Hapus 1 baris vertikal</p>
-  <p>Harga: <strong>260 Rubel</strong></p>
-  <p class="stock">Stok: <span id="stock-vertical">0</span></p>
-</div>
-<details>
-  <summary>Penjelasan...</summary>
-  <p id="p"><strong>Blast again!</strong><br>
-  <br>
-  Kalau kamu sudah melihat versi Horizontal, maka ini adalah versi dari vertikalnya bung!</p>
-</details>
-</div>
-
-<div class="detail">
-<div class="ability" onclick="buyAbility('bomb')">
-  <h3>💣 Bomb</h3>
-  <p>Hapus 4 kotak area</p>
-  <p>Harga: <strong>200 Rubel</strong></p>
-  <p class="stock">Stok: <span id="stock-bomb">0</span></p>
-</div>
-<details>
-  <summary>Penjelasan...</summary>
-  <p id="p"><strong>BOM!!</strong><br>
-  <br>
-  <i>Seni adalah ledakan!</i><br>
-  <br>
-  Pakai ini jika kamu ingin menghancurkan 4 kotak yang berkumpul di kotakmu itu!</p>
-</details>
-<p><br></p>
-<details>
-  <summary>Peringatan!</summary>
-  <p id="p">Untuk memastikan ability kalian berjalan normal, tolong baca panduan ini<br>
-  Tekan rocket sekali untuk menghancurkan 4 tile secara random, tapi tenang, dia tidak akan menghancurkan tile dengan nilai 128 ke atas agar tidak mempersulit mencapai kemenangan kalian.<br> <br>
-  Ability Bom akan menghancurkan tile 2 kali 2 (4 tile dengan bentuk kotak), namun dia akan menghancurkannya dari sudut kiri atas(bukan sudut kiri papan permainan!), tekan sudut kiri agar tile 2 kali dua hancur.<br> <br>
-  Untuk mencegah bug dan penyia nyiaan ability, kami mengatur sistem agar kalau tile yang ada di papan permainanmu sama atau di bawah 4 tile, maka ability tidak akan bekerja.<br> <br>
-  Pastikan jika kamu menggunakan Horizontal blast, Vertical blast, dan Bomb, jangan sekali kali menekan di kotak kosong yang tidak memiliki tile apapun (maksudnya jika tidak akan ada tile yang terkena ability).<br> <br>
-  Hati-hati saat menggunakan ability, karena bisa saja tile tertinggi-mu ikut hancur (manual).</p>
-</details>
-</div>
-
-<button id="close" onclick="closeShop()">⟨⟨⟨ Kembali</button>
-
+    <div class="detail">
+      <div class="ability" onclick="buyAbility('horizontal')">
+        <div class="discount-badge">OFF -50%</div>
+        <h3>↔️ Horizontal Blast<br>
+        ————————————</h3>
+        <p>Hapus 1 baris horizontal</p>
+        <p>
+          <span class="original-price">520 Rubel</span><br>
+          <span class="discounted-price">Harga: 260 Rubel</span>
+        </p>
+        <p class="stock">Stok: <span id="stock-horizontal">0</span></p>
+      </div>
+      <details>
+        <summary>Penjelasan..</summary>
+        <p id="p"><strong>Horizontal Blast!</strong><br>
+        <br>
+        Ability ini akan menghancurkan seluruh kotak horizontal yang kamu pilih, cukup keren benar?</p>
+      </details>
+    </div>
+    <div class="detail">
+      <div class="ability" onclick="buyAbility('vertical')">
+        <div class="discount-badge">OFF -50%</div>
+        <h3>↕️ Vertical Blast</h3>
+        <p>Hapus 1 baris vertikal</p>
+        <p>
+          <span class="original-price">520 Rubel</span><br>
+          <span class="discounted-price">Harga: 260 Rubel</span>
+        </p>
+        <p class="stock">Stok: <span id="stock-vertical">0</span></p>
+      </div>
+      <details>
+        <summary>Penjelasan...</summary>
+        <p id="p"><strong>Blast again!</strong><br>
+        <br>
+        Kalau kamu sudah melihat versi Horizontal, maka ini adalah versi dari vertikalnya bung!</p>
+      </details>
+    </div>
+    <div class="detail">
+      <div class="ability" onclick="buyAbility('bomb')">
+        <div class="discount-badge">OFF -50%</div>
+        <h3>💣 Bomb</h3>
+        <p>Hapus 4 kotak area</p>
+        <p>
+          <span class="original-price">400 Rubel</span><br>
+          <span class="discounted-price">Harga: 200 Rubel</span>
+        </p>
+        <p class="stock">Stok: <span id="stock-bomb">0</span></p>
+      </div>
+      <details>
+        <summary>Penjelasan...</summary>
+        <p id="p"><strong>BOM!!</strong><br>
+        <br>
+        <i>Seni adalah ledakan!</i><br>
+        <br>
+        Pakai ini jika kamu ingin menghancurkan 4 kotak yang berkumpul di kotakmu itu!</p>
+      </details>
+      <p><br></p>
+      <details>
+        <summary>Peringatan!</summary>
+        <p id="p">Untuk memastikan ability kalian berjalan normal, tolong baca panduan ini<br>
+        Tekan rocket sekali untuk menghancurkan 4 tile secara random, tapi tenang, dia tidak akan menghancurkan tile dengan nilai 128 ke atas agar tidak mempersulit mencapai kemenangan kalian.<br> <br>
+        Ability Bom akan menghancurkan tile 2 kali 2 (4 tile dengan bentuk kotak), namun dia akan menghancurkannya dari sudut kiri atas(bukan sudut kiri papan permainan!), tekan sudut kiri agar tile 2 kali dua hancur.<br> <br>
+        Untuk mencegah bug dan penyia nyiaan ability, kami mengatur sistem agar kalau tile yang ada di papan permainanmu sama atau di bawah 4 tile, maka ability tidak akan bekerja.<br> <br>
+        Pastikan jika kamu menggunakan Horizontal blast, Vertical blast, dan Bomb, jangan sekali kali menekan di kotak kosong yang tidak memiliki tile apapun (maksudnya jika tidak akan ada tile yang terkena ability).<br> <br>
+        Hati-hati saat menggunakan ability, karena bisa saja tile tertinggi-mu ikut hancur (manual).</p>
+      </details>
+    </div>
+    <button id="close" onclick="closeShop()">⟨⟨⟨ Kembali</button>
   </div>
   <script>
-  const efekAudio = new Audio("efekTekan.mp3");
+    const efekAudio = new Audio("efekTekan.mp3");
+    function efekTekan() { 
+      let sound = efekAudio; 
+      sound.currentTime = 0; 
+      sound.volume = 1; 
+      sound.play(); 
+    }let rubel = parseInt(localStorage.getItem('rubel'));
+rubel = isNaN(rubel) ? 0 : rubel;
 
-function efekTekan() {
-  let sound = efekAudio;
-  sound.currentTime = 0;
-  sound.volume = 1;
-  sound.play();
-}
-
-    let rubel = parseInt(localStorage.getItem('rubel'));
-    rubel = isNaN(rubel) ? 0 : rubel;
-    
-    function addRubel(amount) {
-  if (rubel >= 99999) {
-    rubel = 99999;
-    alert("Rubel kamu sudah maksimal!");
-    return;
+function addRubel(amount) {
+  if (rubel >= 99999) { 
+    rubel = 99999; 
+    alert("Rubel kamu sudah maksimal!"); 
+    return; 
   }
 
   rubel += amount;
 
-  if (rubel > 99999) {
-    rubel = 99999;
-    alert("Rubel kamu sudah maksimal!");
+  if (rubel > 99999) { 
+    rubel = 99999; 
+    alert("Rubel kamu sudah maksimal!"); 
   }
 
-  localStorage.setItem('rubel', rubel);
-  updateRubelUI();
+  localStorage.setItem('rubel', rubel); 
+  updateRubelUI(); 
 }
 
-    let abilities = JSON.parse(localStorage.getItem('abilities'));
-    if (typeof abilities !== 'object' || abilities === null) {
-      abilities = {
-        rocket: 0,
-        horizontal: 0,
-        vertical: 0,
-        bomb: 0
-      };
-    }
-
-    const prices = {
-      rocket: 300,
-      horizontal: 260,
-      vertical: 260,
-      bomb: 200
-    };
-
-    function updateRubelUI() {
-      document.getElementById('rubel-amount').textContent = rubel;
-    }
-
-    function updateStockUI() {
-      for (let key in abilities) {
-        document.getElementById(`stock-${key}`).textContent = abilities[key];
-      }
-    }
-
-    let selectedAbility = null;
-
-function buyAbility(ability) {
-  efekTekan();
-  selectedAbility = ability;
-  document.getElementById('confirm-text').innerHTML = `Kamu yakin ingin membeli <strong>${ability}</strong> ini?`;
-  document.getElementById('confirm-popup').style.display = 'block';
-  document.getElementById('popup-overlay').style.display = 'block';
+let abilities = JSON.parse(localStorage.getItem('abilities'));
+if (typeof abilities !== 'object' || abilities === null) {
+  abilities = {
+    rocket: 0,
+    horizontal: 0,
+    vertical: 0,
+    bomb: 0
+  };
 }
 
-function confirmPurchase() {
-  if (selectedAbility) {
-    const ability = selectedAbility;
+// Harga setelah diskon 50%
+const prices = {
+  rocket: 300,
+  horizontal: 260,
+  vertical: 260,
+  bomb: 200
+};
+
+function updateRubelUI() {
+  document.getElementById('rubel-amount').textContent = rubel;
+}
+
+function updateStockUI() {
+  for (let key in abilities) {
+    const el = document.getElementById(`stock-${key}`);
+    if (el) el.textContent = abilities[key];
+  }
+}
+
+let selectedAbility = null;
+
+function buyAbility(ability) { 
+  efekTekan(); 
+  selectedAbility = ability; 
+  document.getElementById('confirm-text').innerHTML = `Kamu yakin ingin membeli <strong>${ability}</strong> ini?`; 
+  document.getElementById('confirm-popup').style.display = 'block'; 
+  document.getElementById('popup-overlay').style.display = 'block'; 
+}
+
+function confirmPurchase() { 
+  if (selectedAbility) { 
+    const ability = selectedAbility; 
     const price = prices[ability];
 
     // Tambahin pengecekan sebelum membeli
@@ -279,52 +333,55 @@ function confirmPurchase() {
     }
 
     closeConfirmPopup();
-  }
+  } 
 }
 
-function cancelPurchase() {
-  closeConfirmPopup();
+function cancelPurchase() { 
+  closeConfirmPopup(); 
 }
 
-function closeConfirmPopup() {
-  document.getElementById('confirm-popup').style.display = 'none';
-  document.getElementById('popup-overlay').style.display = 'none';
-  selectedAbility = null;
+function closeConfirmPopup() { 
+  document.getElementById('confirm-popup').style.display = 'none'; 
+  document.getElementById('popup-overlay').style.display = 'none'; 
+  selectedAbility = null; 
 }
 
-    function closeShop() {
-      efekTekan();
-      location.replace("menu.html"); // Ganti sesuai halaman utama
-    }
-    
+function closeShop() {
+  efekTekan();
+  location.replace("menu.html"); // Ganti sesuai halaman utama
+}
+
 const details = document.querySelectorAll("details");
 
-details.forEach(detail => {
-  detail.addEventListener("toggle", () => {
-    const content = detail.querySelector("p");
-    if (detail.open) {
-      content.classList.remove("animate-turun");
-      void content.offsetWidth; // trigger ulang
-      content.classList.add("animate-turun");
-    }
-  });
+details.forEach(detail => { 
+  detail.addEventListener("toggle", () => { 
+    const content = detail.querySelector("p"); 
+    if (detail.open) { 
+      content.classList.remove("animate-turun"); 
+      void content.offsetWidth; // trigger ulang 
+      content.classList.add("animate-turun"); 
+    } 
+  }); 
 });
 
-    // Init saat halaman dibuka
-    updateRubelUI();
-    updateStockUI();
-    
-    function addMultiEventListener(element, events, handler) {
-  events.forEach(event => {
-    element.addEventListener(event, handler);
-  });
+// Init saat halaman dibuka
+window.addEventListener('DOMContentLoaded', () => {
+  updateRubelUI();
+  updateStockUI();
+});
+
+function addMultiEventListener(element, events, handler) {
+  events.forEach(event => { 
+    element.addEventListener(event, handler); 
+  }); 
 }
 
-document.querySelectorAll("summary").forEach(summary => {
-  addMultiEventListener(summary, ["click", "touchend", "keydown"], () => {
-    efekTekan();
-  });
+document.querySelectorAll("summary").forEach(summary => { 
+  addMultiEventListener(summary, ["click", "touchend", "keydown"], () => { 
+    efekTekan(); 
+  }); 
 });
+
   </script>
-  </body>
+</body>
 </html>
